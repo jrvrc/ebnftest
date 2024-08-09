@@ -30,12 +30,12 @@ Number ::= Digits ( ( '.' | ',' ) Digits? )?
 Digits ::= #'[0-9]+'
       </textarea>
       <h2>Test Input</h2>
-      <textarea class="valid" id="input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">F 60~ 0.05-150 Hz</textarea>
+      <textarea class="valid" id="input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <h2>Test Output</h2>
       <pre id="output" class="disabled"></pre>
       <script src="js/ebnftest.js" type="text/javascript"></script>
       <script>
-        document.getElementById("current-url").innerHTML = decodeURIComponent(window.location.href).match(/\/\{([^\/]+)\}$/)[1];
+        document.getElementById("input").value = decodeURIComponent(window.location.href).match(/\/\{([^\/]+)\}$/)[1];
       </script>
     </body>
 </html>

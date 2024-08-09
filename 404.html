@@ -35,7 +35,7 @@ Digits ::= #'[0-9]+'
       <pre id="output" class="disabled"></pre>
       <script src="js/ebnftest.js" type="text/javascript"></script>
       <script>
-        document.getElementById("current-url").innerHTML = window.location.href;
+        document.getElementById("current-url").innerHTML = decodeURIComponent(window.location.href).match(/\/\{([^\/]+)\}$/)[1];
       </script>
     </body>
 </html>

@@ -25,7 +25,7 @@ jobs:
       with:
           name: github-pages
           path: |
-            out/ebnftest.js
+            out/
             index.html
       
   deploy:

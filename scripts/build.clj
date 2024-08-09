@@ -5,8 +5,8 @@
 (let [start (System/nanoTime)]
   (b/build "src"
     {:main 'ebnftest.core
-     :output-to "_site/ebnftest.js"
-     :output-dir "_site"
+     :output-to "out/ebnftest.js"
+     :output-dir "out"
      :verbose true})
   (println "... done. Elapsed" (/ (- (System/nanoTime) start) 1e9) "seconds"))
 

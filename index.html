@@ -24,18 +24,82 @@
       <p id="current-url"></p>
       <h2>EBNF Grammar</h2>
       <textarea class="valid" id="grammar" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-Filter ::= ( First ' ' )? ( Number '~ ' )? ( Number '-' Number ) ( ' ' Number '~' )? ( ' Hz' )? ( ' B' )? ( ' I' )? ( ' A' )?
-First  ::= #'[A-Za-z][A-Za-z0-9_+]*'
-Number ::= Digits ( ( '.' | ',' ) Digits? )?
-Digits ::= #'[0-9]+'
+root ::= scenario
+
+scenario ::= layer1 "\n" "\n"
+
+layer1 ::= "Layer 1 (Road Model):" "\n" "\t" l1segment
+
+l1segment ::= "Segment #" digit " has a " road (" of " length " length ")? (( "," | "and ") (" on the " connection " side ")? feature)*"." "\n" "\t" "\t" l1road+
+
+l1road ::= "The " road (" has " geometry " geometry ")? (" with " radius " radius")? ((" " | " and ") (" a " slope " slope " slopeprofile))? " has " digit " driving lane"("s")? ((" " | " with ") r_tilt " lateral tilt ")? ((" " | "," | " and ") hovlane digit farside? ((" " | " with ") r_tilt " lateral tilt ")?)? ((" " | "," | " and ") stoplane digit? ((" " | " with ") r_tilt " lateral tilt ")?)? ((" "| "," | " and ") emergencybay digit)? ((" "| " and ") (" right " | " left ") " of lane " digit dividinglane digit)?"." "\n" "\t" "\t" "\t" l1lane
+
+l1lane ::= lane" #" digit " has "? (l_width " width")? ((""| "," | " and ") " a " transition (" to " direction " lane ")? ((" " | " after ") position)?)? ((""| "," | " and ") ruts " ruts ")? (( ""| "," | " and ") " a " marking? ","? (visibility " visible ")? " lane marking on the left ")? (( ""| "," | " and ") " a " marking? ","? (visibility " visible ")? " lane marking on the right ")? ((""| " and ")(" is connected to " lane digit (" of segment " " Segment " digit )? | " no further segment connections "))?".""\n\t\t"
+
+digit ::= #'[0-9]+'
+signnr ::= digit
+int ::= digit
+lanelink1 ::= digit
+lanelink2 ::= digit
+nummakeshiftopp ::= digit
+nummakeshift ::= digit
+lowercase ::= #'[a-z]+'
+uppercase ::= #'[A-Z]+'
+letter ::= lowercase | uppercase
+value ::= letter*
+float ::=digit"."digit
+road ::="main roadway"|"entry"|"exit"
+length ::= "very short"|"short"|"normal"|"long"|"very long"| digit
+connection ::= "left"|"right"
+feature ::= "an entry"| "an exit"
+r_tilt ::= "without a"| "with aslight"|"with a middle"|"with a steep"
+farside ::= "left-most"|"right-most"
+grouptype ::= "a sign group"|"a mast"|"a bridge"|"road markings"
+clearance ::="very low"|"low"|"normal"|"high"|"very high"
+visibility ::="not"|"poorly"|"partially"|"well"|"perfectly"
+aspects ::="single-aspects"|"dual-aspects"|"three-aspects"
+light ::="green"|"yellow"|"red"
+signclass ::="regulation"|"informational"|"danger"|"supplementary"
+name ::="speed limit"|"end of all speed limits"|"local plaque"|"overtaking forbidden"
+height ::="very low"|"low"|"normal"|"high"|"very high"
+plant ::="trees"|"bushes"
+placement ::="the median"|"the right shoulder"|"the median and the right shoulder"
+density ::="very low"|"low"|"normal"|"high"|"very high"
+reason ::="a short term construction site"|"a long term construction site"
+hasmakeshiftbay ::="an emergency bay"
+blocked ::="blocked"|"blocked on right"|"blocked on left"|"blocked by variable sign"|"blocked by mobile barrier"|"blocked by an accident"
+makeshift ::= "Makeshift lane"|"Emergency bay"
+l_width ::= "a narrow"|"a normal"|"a wide"
+transition ::="narrowing"|"widening"
+direction ::= "left"|"right"
+position ::= "at the beginning"|"in the middle"|"at the end"
+structure ::="under a bridge"|"through a tunnel"|"through a trough (u-shaped tunnel)"
+guideposts ::="guideposts"
+shoulder ::="the median"|"the right shoulder"|"the median and the right shoulder"
+directory ::="very small"|"small"|"normal"
+hoveq ::="a guardrail"|"concrete step barrier"
+equipment ::="a guardrail"|"a noise barrier"|"a concrete step barrier"|"pillars"|"an interrupted wall"|"a continuous wall"
+houses ::="houses"
+stoplane ::= "a stop lane"
+emergencybay ::= "an emergency bay"
+dividinglane ::= "a dividing lane"
+hovlane ::="an HOVlane"
+geometry ::= "a straight"|"a left-curved"|"a right-curved"
+radius ::= "small"|"middle"|"big"
+slope ::= "slight"|"middle"|"steep"
+slopeprofile ::= "downhill"|"uphill"
+ruts ::= "no"|"shallow"|"deep"
+marking ::= "continuous" | "interrupted" | "wide, continuous" | "wide, interrupted"
+lane ::="Driving lane" | "Stop lane" | "Dividing lane" | "HOVlane"
       </textarea>
       <h2>Test Input</h2>
-      <textarea class="valid" id="input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">F 60~ 0.05-150 Hz</textarea>
+      <textarea class="valid" id="input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </textarea>
+      <script>
+        document.getElementById("input").value = decodeURIComponent(window.location.href).match(/\/\{([^\/]+)\}$/)[1];
+      </script>
       <h2>Test Output</h2>
       <pre id="output" class="disabled"></pre>
       <script src="js/ebnftest.js" type="text/javascript"></script>
-      <script>
-        document.getElementById("current-url").innerHTML = window.location.href;
-      </script>
     </body>
 </html>

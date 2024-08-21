@@ -26,18 +26,44 @@
       <textarea class="valid" id="grammar" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 root ::= scenario
 
-scenario ::= layer1 "\n" "\n"
+scenario ::= layer1 layer2 layer3
 
-layer1 ::= "Layer 1 (Road Model):" "\n" "\t" l1segment
+layer1 ::= "Layer 1 (Road Model):" l1segment
 
-l1segment ::= "Segment #" digit " has a " road (" of " length " length ")? (( "," | "and ") (" on the " connection " side ")? feature)*"." "\n" "\t" "\t" l1road+
+l1segment ::= "\n""\t" "Segment #" digit " has a " road (" of " length "m"?" length")? (( "," | " and ") (" on the " connection " side ")? feature)*"." l1road*
 
-l1road ::= "The " road (" has " geometry " geometry ")? (" with " radius " radius")? ((" " | " and ") (" a " slope " slope " slopeprofile))? " has " digit " driving lane"("s")? ((" " | " with ") r_tilt " lateral tilt ")? ((" " | "," | " and ") hovlane digit farside? ((" " | " with ") r_tilt " lateral tilt ")?)? ((" " | "," | " and ") stoplane digit? ((" " | " with ") r_tilt " lateral tilt ")?)? ((" "| "," | " and ") emergencybay digit)? ((" "| " and ") (" right " | " left ") " of lane " digit dividinglane digit)?"." "\n" "\t" "\t" "\t" l1lane
+l1road ::= "\n""\t""\t" "The " road " has " (geometry " geometry")? (" with " radius " radius")? (("" | " and ") ("a " slope " slope " slopeprofile))? " which has " digit " driving lane"("s")? ((" " | " with ") r_tilt " lateral tilt ")? ((" " | "," | " and ") hovlane digit farside? ((" " | " with ") r_tilt " lateral tilt ")?)? ((" " | "," | " and ") stoplane digit? ((" " | " with ") r_tilt " lateral tilt ")?)? ((" "| "," | " and ") emergencybay digit)? ((" "| " and ") (" right " | " left ") " of lane " digit dividinglane digit)?"." l1lane*
 
-l1lane ::= lane" #" digit " has "? (l_width " width")? ((""| "," | " and ") " a " transition (" to " direction " lane ")? ((" " | " after ") position)?)? ((""| "," | " and ") ruts " ruts ")? (( ""| "," | " and ") " a " marking? ","? (visibility " visible ")? " lane marking on the left ")? (( ""| "," | " and ") " a " marking? ","? (visibility " visible ")? " lane marking on the right ")? ((""| " and ")(" is connected to " lane digit (" of segment " " Segment " digit )? | " no further segment connections "))?".""\n\t\t"
+l1lane ::= "\n""\t""\t""\t" lane" #" digit " has "? (l_width " width")? ((""| "," | " and ") " a " transition (" to " direction " lane ")? ((" " | " after ") position)?)? ((""| "," | " and ") ruts " ruts ")? (( ""| "," | " and ") " a " marking? ","? (visibility " visible ")? " lane marking on the left ")? (( ""| "," | " and ") " a " marking? ","? (visibility " visible ")? " lane marking on the right ")? ((""| " and ")(" is connected to " lane digit (" of segment " " Segment " digit )? | " no further segment connections "))?"."
 
-digit ::= #'[0-9]+'
-signnr ::= digit
+layer2 ::= "\n""\n" "Layer 2 (Infrastructure):" l2infrastructure+ l2trafficregulation* l2vegetation*
+
+l2infrastructure ::= "\n""\t" "The " road (" leads " structure (" with a " (clearance " clearance height " | " clearance height of " clearance))?)? (" and "? " has ")? (guideposts (" on " shoulder)? ("with" (" a " |" ") directory " distance ")?)? (hoveq " which delineates the HOV-lane ")? ((""| "," | " and ") equipment (" on " shoulder)? (" of " height " cm height ")?)* ((""| " and ") houses (" with " density " density")?)?"."
+
+l2trafficregulation ::= "\n""\t" (""| "After ") position "," ((" there is " | " and ") grouptype " #" digit (" with" (" a " (clearance " clearance height " | " clearance height of " float " m "))? 
+((""|", " | " and ") " a " (visibility " visible ")? ","? (" a " aspects " traffic light " ((" illuminating " | " flashing ") light)? | " variable traffic sign " 
+(", which shows a " signclass " sign " ((signnr | " of type " name (" with value " value)?))?)?
+| signclass " sign " ("#" signnr | (" of type " name)? (" with value " value)?)) (" at " (height " height " | " height of " height))? ((" over " | " on ") lane digit)?)+)?)+"."
+
+l2vegetation ::= "\n""\t" "The lateral vegetation consists of " ((( "," | " and ")? plant (" on " placement)? (" of " height "cm height")? (" with " density"%"? " density")?)*)?"."
+
+layer3 ::= "\n""\n" "Layer 3 (Temporary Modifications):" l3roadimpact+ l3laneimpact* l3infrastructureimpact*
+  
+l3roadimpact ::= "\n""\t" ("On the " | "The ") (road | feature) " of " "Segment #" digit (" is " reason (" and it")?)? (" has " nummakeshift " makeshift lane"("s")? (( "," | " and ") nummakeshiftopp " lane"("s")? "on the opposite side ")? (" and " hasmakeshiftbay)?)?"."
+
+l3laneimpact ::= "\n""\t" (lane " #" digit (" on " (road | feature) " of " "Segment #" digit)? (" is " blocked)? | 
+(makeshift " #"digit (" redirects " lane " #"lanelink1 " to " lane " #"lanelink2| " replaces " lane " #" lanelink1)))?
+((""| "," | " and")? " has " (l_width " width")?)? 
+((""| "," | " and ") "a " transition (" to " direction " lane ")? ((position | "after " int "m"))?)?
+((""| "," | " and ") "a " marking? ","? (visibility " visible ")? ("lane"|"road") " marking on the left")?
+((""| " and ") "a " marking? ","? (visibility " visible ")? ("lane"|"road") " marking on the right")?"."
+
+l3infrastructureimpact ::= "At the" groupnametype " #"digit","
+((""|","|" and ") "the" (" sign " (value|signnr|"traffic light")) "is" ("crossed-out"|"replaced with a" (visibility "visible")? signclass "sign" 
+((value|signnr)("with value " value)?)?("with " clearance " clearance height")?))*"."
+
+digit ::= "-"?#'[0-9]+'
+signnr ::= digit"-"digit
 int ::= digit
 lanelink1 ::= digit
 lanelink2 ::= digit
@@ -55,24 +81,25 @@ feature ::= "an entry"| "an exit"
 r_tilt ::= "without a"| "with aslight"|"with a middle"|"with a steep"
 farside ::= "left-most"|"right-most"
 grouptype ::= "a sign group"|"a mast"|"a bridge"|"road markings"
+groupnametype ::= "Sign group"| "Mast" | "Bridge"|"Road markings"
 clearance ::="very low"|"low"|"normal"|"high"|"very high"
 visibility ::="not"|"poorly"|"partially"|"well"|"perfectly"
 aspects ::="single-aspects"|"dual-aspects"|"three-aspects"
 light ::="green"|"yellow"|"red"
 signclass ::="regulation"|"informational"|"danger"|"supplementary"
 name ::="speed limit"|"end of all speed limits"|"local plaque"|"overtaking forbidden"
-height ::="very low"|"low"|"normal"|"high"|"very high"
+height ::="very low"|"low"|"normal"|"high"|"very high"|digit
 plant ::="trees"|"bushes"
 placement ::="the median"|"the right shoulder"|"the median and the right shoulder"
-density ::="very low"|"low"|"normal"|"high"|"very high"
+density ::="very low"|"low"|"normal"|"high"|"very high"|digit
 reason ::="a short term construction site"|"a long term construction site"
 hasmakeshiftbay ::="an emergency bay"
 blocked ::="blocked"|"blocked on right"|"blocked on left"|"blocked by variable sign"|"blocked by mobile barrier"|"blocked by an accident"
 makeshift ::= "Makeshift lane"|"Emergency bay"
-l_width ::= "a narrow"|"a normal"|"a wide"
+l_width ::= "a narrow"|"a normal"|"a wide"|"["float";"float"]"
 transition ::="narrowing"|"widening"
 direction ::= "left"|"right"
-position ::= "at the beginning"|"in the middle"|"at the end"
+position ::= "At the beginning"|"In the middle"|"At the end"
 structure ::="under a bridge"|"through a tunnel"|"through a trough (u-shaped tunnel)"
 guideposts ::="guideposts"
 shoulder ::="the median"|"the right shoulder"|"the median and the right shoulder"

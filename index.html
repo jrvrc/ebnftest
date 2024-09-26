@@ -121,30 +121,9 @@ lane ::="Driving lane" | "Stop lane" | "Dividing lane" | "HOVlane"
       </textarea>
       <h2>Test Input</h2>
       <textarea class="valid" id="input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-Layer 1 (Road Model):
-Segment #1 has a main roadway of 1000m length and an entry.
-The main roadway has a straight geometry with middle radius which has 2 driving lanes.
-Driving lane #1 has a narrow width.
-Driving lane #2 has a normal width.
-The entry has a straight geometry.
-
-Layer 2 (Infrastructure):
-The main roadway has a guardrail on the median and the right shoulder.
-The lateral vegetation consists of trees on the median and the right shoulder with 80% density and bushes of 60cm height with 30% density.
-After 50m, there is a mast #1 with a partially visible regulation sign of type speed limit with value 60 km/h.
-After 150m, there is a mast #2 with a regulation sign of type end of all speed limits.
-After 250m, there is a bridge #1 with a variable traffic sign, which shows a regulation sign of type overtaking forbidden for trucks.
-
-Layer 3 (Temporary Modifications):
-On the main roadway of Segment #1 is a long term construction site and it has 2 makeshift lanes and an emergency bay.
-Driving lane #1 is blocked on left and has a narrowing to left lane after 50m.
-Makeshift lane #1 replaces Driving lane #1 and has [3.20;3.50] width.
-At the Mast #1, the sign speed limit is replaced with a regulation sign speed limit with value 60 km/h.
-At the Mast #2, the sign 274-60 is replaced with a well visible regulation sign 274-56.
-At the Bridge #1, the sign end of all speed limits is crossed-out.
       </textarea>
       <script>
-        document.getElementById("input").value = decodeURIComponent(window.location.href).match(/\/\{([^\/]+)\}$/)[1];
+        document.getElementById("input").value = decodeURIComponent(window.location.href);
       </script>
       <h2>Test Output</h2>
       <pre id="output" class="disabled"></pre>

@@ -123,7 +123,7 @@ lane ::="Driving lane" | "Stop lane" | "Dividing lane" | "HOVlane"
       <textarea class="valid" id="input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       </textarea>
       <script>
-        document.getElementById("input").value = decodeURIComponent(window.location.href);
+        document.getElementById("input").value = (new URL(window.location.href)).pathname;
       </script>
       <h2>Test Output</h2>
       <pre id="output" class="disabled"></pre>

@@ -124,10 +124,14 @@ lane ::="Driving lane" | "Stop lane" | "Dividing lane" | "HOVlane"
       </textarea>
       <script>
         function decodeURIComponentCustom(encodedStr) {
-        return encodedStr.replace(/%([0-9A-F]{2})/gi, (match, hex) => {
+        const decodedStr = encodedStr.replace(/%([0-9A-F]{2})/gi, (match, hex) => {
+            if (hex === '09') return '\t'; // Tab (0x09)
+            if (hex === '0A') return '\n'; // Newline (0x0A)
+            if (hex === '0D') return '\r'; // Carriage return (0x0D)
             return String.fromCharCode(parseInt(hex, 16));
-        });}
-        document.getElementById("input").value = decodeURIComponentCustom(window.location.href);
+        });
+        return decodedStr;}
+        document.getElementById("input").value = decodeURIComponentCustom(window.location.href).match(/\{([^}]+)\}/)[1];
       </script>
       <h2>Test Output</h2>
       <pre id="output" class="disabled"></pre>

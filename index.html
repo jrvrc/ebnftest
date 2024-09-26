@@ -123,7 +123,11 @@ lane ::="Driving lane" | "Stop lane" | "Dividing lane" | "HOVlane"
       <textarea class="valid" id="input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       </textarea>
       <script>
-        document.getElementById("input").value = (new URL(window.location.href)).pathname;
+        function decodeURIComponentCustom(encodedStr) {
+        return encodedStr.replace(/%([0-9A-F]{2})/gi, (match, hex) => {
+            return String.fromCharCode(parseInt(hex, 16));
+        });}
+        document.getElementById("input").value = decodeURIComponentCustom(window.location.href);
       </script>
       <h2>Test Output</h2>
       <pre id="output" class="disabled"></pre>

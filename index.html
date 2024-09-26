@@ -28,7 +28,7 @@ root ::= scenario
 
 scenario ::= layer1 layer2 layer3
 
-layer1 ::= "Layer 1 (Road Model):" l1segment
+layer1 ::= "Layer 1 (Road Model):" l1segment*
 
 l1segment ::= "\n""\t" "Segment #" digit " has a " road (" of " length "m"?" length")? (( "," | " and ") (" on the " connection " side ")? feature)*"." l1road*
 

@@ -32,7 +32,7 @@ layer1 ::= "Layer 1 (Road Model):" l1segment*
 
 l1segment ::= "\n""\t" "Segment #" digit " has a " road (" of " length "m"?" length")? (( "," | " and ") (" on the " connection " side ")? feature)*"." l1road*
 
-l1road ::= "\n""\t""\t" "The " road " has " (geometry " geometry")? (" with " radius " radius")? ((" " | " and ") ("a " slope " slope " slopeprofile))? (" which has " digit " driving lane"("s")?)? ((" " | " with ") r_tilt " lateral tilt")? ((" " | "," | " and ") hovlane digit farside? ((" " | " with ") r_tilt " lateral tilt ")?)? ((" " | "," | " and ") stoplane digit? ((" " | " with ") r_tilt " lateral tilt ")?)? ((" "| "," | " and ") emergencybay digit)? ((" "| " and ") (" right " | " left ") " of lane " digit dividinglane digit)?"." l1lane*
+l1road ::= "\n""\t""\t" "The " road " has " (geometry " geometry")? (" with " radius " radius")? ((" " | " and ") ("a " slope " slope " slopeprofile))? (" which has " digit " driving lane"("s")?)? ((" " | " with ") r_tilt " lateral tilt")? ((" " | "," | " and ") hovlane " #"digit farside? ((" " | " with ") r_tilt " lateral tilt ")?)? ((" " | "," | " and ") stoplane " #"digit? ((" " | " with ") r_tilt " lateral tilt ")?)? ((" "| "," | " and ") emergencybay digit)? ((" "| " and ") (" right " | " left ") " of lane " digit dividinglane digit)?"." l1lane*
 
 l1lane ::= "\n""\t""\t""\t" lane" #" digit " has "? (l_width " width")? ((""| "," | " and ") " a " transition (" to " direction " lane ")? ((" " | " after ") position)?)? ((""| "," | " and ") ruts " ruts ")? (( ""| "," | " and ") " a " marking? ","? (visibility " visible ")? " lane marking on the left ")? (( ""| "," | " and ") " a " marking? ","? (visibility " visible ")? " lane marking on the right ")? ((""| " and ")(" is connected to " lane digit (" of segment " " Segment " digit )? | " no further segment connections "))?"."
 
@@ -78,7 +78,7 @@ road ::="main roadway"|"entry"|"exit"
 length ::= "very short"|"short"|"normal"|"long"|"very long"| digit
 connection ::= "left"|"right"
 feature ::= "an entry"| "an exit"
-r_tilt ::= "without a"| "with aslight"|"with a middle"|"with a steep"
+r_tilt ::= "without a"| "with a slight"|"with a middle"|"with a steep"
 farside ::= "left-most"|"right-most"
 grouptype ::= "a sign group"|"a mast"|"a bridge"|"road markings"
 groupnametype ::= "Sign group"| "Mast" | "Bridge"|"Road markings"

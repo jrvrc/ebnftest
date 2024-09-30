@@ -38,12 +38,12 @@ l1lane ::= "\n""\t""\t""\t" lane" #" digit " has "? (l_width " width")? ((""| ",
 
 layer2 ::= "\n""\n" "Layer 2 (Infrastructure):" l2infrastructure+ l2trafficregulation* l2vegetation*
 
-l2infrastructure ::= "\n""\t" "The " road (" leads " structure (" with a " (clearance " clearance height " | " clearance height of " clearance))?)? (" and"? " has ")? (guideposts (" on " shoulder)? ("with" (" a " |" ") directory " distance ")?)? (hoveq " which delineates the HOV-lane ")? ((""| "," | " and ") equipment (" on " shoulder)? (" of " height " cm height ")?)* ((""| " and ") houses (" with " density " density")?)?"."
+l2infrastructure ::= "\n""\t" "The " road (" leads " structure (" with a " (clearance " clearance height " | " clearance height of " digit "m"))?)? (" and"? " has ")? (guideposts (" on " shoulder)? ("with" (" a " |" ") directory " distance ")?)? (hoveq " which delineates the HOV-lane ")? ((""| "," | " and ") equipment (" on " shoulder)? (" of " height " cm height ")?)* ((""| " and ") houses (" with " density " density")?)?"."
 
 l2trafficregulation ::= "\n""\t" (""| "After ") position "," ((" there is " | " and ") grouptype " #" digit (" with" (" a " (clearance " clearance height " | " clearance height of " float " m "))? 
 ((""|", " | " and ") " a " (visibility " visible ")? ","? (" a " aspects " traffic light " ((" illuminating " | " flashing ") light)? | " variable traffic sign " 
-(", which shows a " signclass " sign " ((signnr | " of type " name (" with value " value)?))?)?
-| signclass " sign " ("#" signnr | (" of type " name)? (" with value " value)?)) (" at " (height " height " | " height of " height))? ((" over " | " on ") lane digit)?)+)?)+"."
+(", which shows a " signclass " sign " (("#" signnr | "of type " name (" with value " value)?))?)?
+| signclass " sign " ("#" signnr | ("of type " name)? (" with value " value)?)) (" at " (height " height " | " height of " height))? ((" over " | " on ") lane digit)?)+)?)+"."
 
 l2vegetation ::= "\n""\t" "The lateral vegetation consists of " ((( "," | " and ")? plant (" on " placement)? (" of " height "cm height")? (" with " density"%"? " density")?)*)?"."
 
